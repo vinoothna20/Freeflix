@@ -7,7 +7,7 @@ export default function BackgroundImage() {
       <img
         className="h-screen w-full object-cover"
         src={background}
-        alt="background"
+        alt="background image"
       />
     </div>
   );

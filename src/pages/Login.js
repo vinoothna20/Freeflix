@@ -97,7 +97,7 @@ export default function Login() {
                     Save your time using these credentials 😉
                   </summary>
                   <p className="bg-red-500 pl-2 mt-2 py-2 rounded-sm">
-                    <span className="font-bold">Username:</span> demo@gmail.com{" "}
+                    <span className="font-bold">Username:</span> demo@gmail.com
                     <br />
                     <span className="font-bold"> Password:</span> demo123
                   </p>

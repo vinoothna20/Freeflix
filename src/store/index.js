@@ -12,7 +12,7 @@ const initialState = {
   genres: [],
 };
 
-export const getGenres = createAsyncThunk("netflix/genres", async () => {
+export const getGenres = createAsyncThunk("freeflix/genres", async () => {
   const {
     data: { genres },
   } = await axios.get(`${TMDB_BASE_URL}/genre/movie/list?api_key=${API_KEY}`);
@@ -86,10 +86,10 @@ const getRawData = async (api, genres, paging) => {
 };
 
 export const fetchMovies = createAsyncThunk(
-  "netflix/trending",
+  "freeflix/trending",
   async ({ type }, thunkApi) => {
     const {
-      netflix: { genres },
+      freeflix: { genres },
     } = thunkApi.getState();
     return getRawData(
       `${TMDB_BASE_URL}/trending/${type}/week?api_key=${API_KEY}`,
@@ -100,10 +100,10 @@ export const fetchMovies = createAsyncThunk(
 );
 
 export const fetchDataByGenre = createAsyncThunk(
-  "netflix/moviesByGenres",
+  "freeflix/moviesByGenres",
   async ({ genre, type }, thunkApi) => {
     const {
-      netflix: { genres },
+      freeflix: { genres },
     } = thunkApi.getState();
     return getRawData(
       `${TMDB_BASE_URL}/discover/${type}?api_key=${API_KEY}&with_genres=${genre}`,
@@ -113,8 +113,8 @@ export const fetchDataByGenre = createAsyncThunk(
   }
 );
 
-const NetflixSlice = createSlice({
-  name: "Netflix",
+const FreeflixSlice = createSlice({
+  name: "freeflix",
   initialState,
   extraReducers: (builder) => {
     builder.addCase(getGenres.fulfilled, (state, action) => {
@@ -132,6 +132,6 @@ const NetflixSlice = createSlice({
 
 export const store = configureStore({
   reducer: {
-    netflix: NetflixSlice.reducer,
+    freeflix: FreeflixSlice.reducer,
   },
 });

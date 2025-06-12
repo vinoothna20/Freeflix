@@ -52,13 +52,12 @@ export default function Navbar({ isScrolled, movies }) {
   return (
     <Container>
       <nav
-        className={`flex ${
-          isScrolled ? "bg-black" : ""
-        } fixed top-0 h-[4.5rem] sm:h-[6.5rem] w-full justify-between z-[2] py-2 px-4 sm:py-0 sm:px-16 items-center transition duration-[0.3s] ease-in-out`}
+        className={`flex ${isScrolled ? "bg-black" : ""
+          } fixed top-0 h-[4.5rem] sm:h-[6.5rem] w-full justify-between z-[2] py-2 px-4 sm:py-0 sm:px-16 items-center transition duration-[0.3s] ease-in-out`}
       >
         <div className="flex items-center gap-4 sm:gap-8">
           <div className="flex items-center justify-center">
-            <img className="h-8 sm:h-12 md:h-16" src={logo} alt="logo" />
+            <img className="h-8 sm:h-16 md:h-20" src={logo} alt="logo" />
           </div>
           <ul className="hidden lg:flex gap-4 sm:gap-8">
             {links.map(({ name, link }) => {
@@ -72,9 +71,8 @@ export default function Navbar({ isScrolled, movies }) {
         </div>
         <div className="flex items-center gap-2 sm:gap-4">
           <div
-            className={`${
-              showSearch ? "show-search" : ""
-            } flex gap-2 items-center justify-center p-1 pl-2`}
+            className={`${showSearch ? "show-search" : ""
+              } flex gap-2 items-center justify-center p-1 pl-2`}
           >
             <button
               className="bg-transparent"

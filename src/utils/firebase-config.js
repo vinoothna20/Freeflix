@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const firebaseAuth = getAuth(app);
-// now firebase will  point to netflix app
+// now firebase will  point to freeflix app
 
 export const db = getFirestore(app);
 // exporting the movies saved to wishlist which are stored in firebase

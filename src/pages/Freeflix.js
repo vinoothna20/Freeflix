@@ -9,12 +9,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies, getGenres } from "../store";
 import Slider from "../components/Slider";
 
-export default function Netflix() {
+export default function Freeflix() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
-  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-  const movies = useSelector((state) => state.netflix.movies);
+  const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
+  const movies = useSelector((state) => state.freeflix.movies);
   const dispatch = useDispatch();
 
   useEffect(() => {

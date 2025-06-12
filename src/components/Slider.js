@@ -25,7 +25,7 @@ export default React.memo(function Slider({ movies, showAlert }) {
         showAlert={showAlert}
       />
       <CardSlider
-        title="Popular On Netflix"
+        title="Popular On Freeflix"
         data={getMoviesFromRange(30, 40)}
         showAlert={showAlert}
       />

@@ -13,9 +13,14 @@ export default function Movies() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
-  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
-  const movies = useSelector((state) => state.netflix.movies);
-  const genres = useSelector((state) => state.netflix.genres);
+
+  useSelector((state) => {
+    console.log(state);
+
+  })
+  const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
+  const movies = useSelector((state) => state.freeflix.movies);
+  const genres = useSelector((state) => state.freeflix.genres);
 
   const dispatch = useDispatch();
 
