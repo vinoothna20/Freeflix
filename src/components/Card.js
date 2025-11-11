@@ -14,7 +14,8 @@ import { onAuthStateChanged } from "firebase/auth";
 export default React.memo(function Card({
   movieData,
   isLiked = false,
-  storedMovies, setStoredMovies,
+  storedMovies,
+  setStoredMovies,
   showAlert,
 }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -33,7 +34,6 @@ export default React.memo(function Card({
 
     return () => unsubscribe(); // cleanup listener on unmount
   }, [navigate]); // <-- Add navigate as dependency
-
 
   const movieId = doc(db, `users/${email}`);
 
@@ -70,9 +70,6 @@ export default React.memo(function Card({
       console.log(error);
     }
   };
-
-
-
 
   return (
     <Container

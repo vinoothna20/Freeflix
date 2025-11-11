@@ -27,10 +27,11 @@ export default function Movies() {
     if (genresLoaded) dispatch(fetchMovies({ type: "movies" }));
   }, [genresLoaded, dispatch]);
 
-  window.onscroll = () => {
-    setIsScrolled(window.scrollY === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY !== 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   onAuthStateChanged(firebaseAuth, (currentUser) => {
     // if (currentUser) navigate("/");

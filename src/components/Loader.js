@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const messages = [
+const defaultMessages = [
     "Curating the next big hits 🍿",
     "Dialing up the drama 🎭",
     "Scanning the galaxy for blockbusters 🚀",
@@ -10,13 +10,17 @@ const messages = [
     "Uncovering hidden gems 💎",
 ];
 
-export default function Loader() {
-    const [message, setMessage] = useState("");
+export default function Loader({ message }) {
+    const [displayMessage, setDisplayMessage] = useState("");
 
     useEffect(() => {
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
-        setMessage(randomMessage);
-    }, []);
+        if (message) {
+            setDisplayMessage(message); // use custom message if provided
+        } else {
+            const randomMessage = defaultMessages[Math.floor(Math.random() * defaultMessages.length)];
+            setDisplayMessage(randomMessage);
+        }
+    }, [message]);
 
     return (
         <div className="flex flex-col items-center justify-center h-[70vh] bg-black text-white">
@@ -26,7 +30,7 @@ export default function Loader() {
                 <div className="w-10 h-10 bg-orange-500 rounded-full animate-bounce"></div>
             </div>
             <p className="mt-6 text-2xl font-semibold tracking-widest text-orange-500 animate-pulse text-center px-4">
-                {message}
+                {displayMessage}
             </p>
         </div>
     );

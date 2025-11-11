@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies, getGenres } from "../store";
 import Slider from "../components/Slider";
+import Loader from "../components/Loader";
 
 export default function Freeflix() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -15,8 +16,9 @@ export default function Freeflix() {
 
   const navigate = useNavigate();
 
-  const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
-  const movies = useSelector((state) => state.freeflix.movies);
+  const { genresLoaded, movies, loading } = useSelector(
+    (state) => state.freeflix
+  );
 
   const dispatch = useDispatch();
 
@@ -76,7 +78,14 @@ export default function Freeflix() {
         </div>
       </div>
       <div className="pb-14">
-        <Slider movies={movies} showAlert={showAlert} />
+        {loading ? (
+          <Loader /> // show loader while Redux says loading=true
+        ) : (
+          <div className="pb-14">
+            <Slider movies={movies} showAlert={showAlert} />
+          </div>
+        )}
+        {/* <Slider movies={movies} showAlert={showAlert} /> */}
       </div>
       {movieAdded && (
         <div className="fixed bottom-5 sm:left-5 bg-green-500 text-white p-4 rounded">
