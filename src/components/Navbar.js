@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
@@ -8,13 +8,19 @@ import { firebaseAuth } from "../utils/firebase-config";
 import _ from "lodash";
 
 export default function Navbar({ isScrolled, movies }) {
+  const [showSearch, setShowSearch] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const [inputHover, setInputHover] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const navigate = useNavigate();
+
   const links = [
     { name: "Home", link: "/" },
     { name: "TV Shows", link: "/tv" },
     { name: "Movies", link: "/movies" },
     { name: "My List", link: "/mylist" },
   ];
-  const navigate = useNavigate();
 
   useEffect(() => {
     onAuthStateChanged(firebaseAuth, (currentUser) => {
@@ -22,27 +28,23 @@ export default function Navbar({ isScrolled, movies }) {
     });
   }, [navigate]);
 
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
-  const [inputHover, setInputHover] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
-
-  const handleSearch = useCallback(
-    _.debounce((value) => {
-      if (value) {
-        const filteredData = movies.filter((item) =>
-          item.name.toLowerCase().includes(value.toLowerCase())
-        );
-        navigate("/search", { state: { searchResults: filteredData } });
-      }
-    }, 1200), // Debounce time set to 500ms
-    [movies, navigate]
+  const debouncedSearch = useMemo(
+    () =>
+      _.debounce((value) => {
+        if (value) {
+          const filteredData = movies.filter((item) =>
+            item.name.toLowerCase().includes(value.toLowerCase())
+          );
+          navigate("/search", { state: { searchResults: filteredData } });
+        }
+      }, 1200),
+    [movies, navigate] // stable dependencies
   );
 
   const handleInputChange = (e) => {
     const value = e.target.value;
     setSearchValue(value);
-    handleSearch(value);
+    debouncedSearch(value);
   };
 
   const toggleMenu = () => {

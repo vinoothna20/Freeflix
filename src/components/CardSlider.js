@@ -6,6 +6,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 export default React.memo(function CardSlider({ data, title, showAlert }) {
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
+
   const listRef = useRef();
 
   const handleDirection = (direction) => {
@@ -31,9 +32,8 @@ export default React.memo(function CardSlider({ data, title, showAlert }) {
       </h1>
       <div>
         <div
-          className={`absolute z-[99] h-full top-6 bottom-0 w-8 sm:w-10 md:w-12 transition duration-[0.3s] ease-in-out left-0 ${
-            !showControls ? "none" : ""
-          } flex items-center justify-center cursor-pointer`}
+          className={`absolute z-[99] h-full top-6 bottom-0 w-8 sm:w-10 md:w-12 transition duration-[0.3s] ease-in-out left-0 ${!showControls ? "none" : ""
+            } flex items-center justify-center cursor-pointer`}
         >
           <AiOutlineLeft
             className="text-xl sm:text-2xl md:text-3xl"
@@ -56,9 +56,8 @@ export default React.memo(function CardSlider({ data, title, showAlert }) {
           })}
         </div>
         <div
-          className={`absolute z-[99] h-full top-6 bottom-0 w-8 sm:w-10 md:w-12 transition duration-[0.3s] ease-in-out right-0 ${
-            !showControls ? "none" : ""
-          } flex items-center justify-center cursor-pointer`}
+          className={`absolute z-[99] h-full top-6 bottom-0 w-8 sm:w-10 md:w-12 transition duration-[0.3s] ease-in-out right-0 ${!showControls ? "none" : ""
+            } flex items-center justify-center cursor-pointer`}
         >
           <AiOutlineRight
             className="text-xl sm:text-2xl md:text-3xl"

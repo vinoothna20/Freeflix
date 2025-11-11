@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { fetchMovies, getGenres } from "../store";
 import { firebaseAuth } from "../utils/firebase-config";
 import Navbar from "../components/Navbar";
@@ -13,7 +12,6 @@ import Loader from "../components/Loader";
 export default function Movies() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 

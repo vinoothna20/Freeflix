@@ -12,23 +12,27 @@ import Slider from "../components/Slider";
 export default function Freeflix() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
+
   const navigate = useNavigate();
+
   const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
   const movies = useSelector((state) => state.freeflix.movies);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getGenres());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "all" }));
-  }, [genresLoaded]);
+  }, [dispatch, genresLoaded]);
 
-  window.onscroll = () => {
-    setIsScrolled(window.scrollY === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY !== 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const showAlert = (message) => {
     setMovieAdded(message);

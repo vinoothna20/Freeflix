@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { fetchMovies, getGenres } from "../store";
 import { firebaseAuth } from "../utils/firebase-config";
 import Navbar from "../components/Navbar";
@@ -13,7 +12,6 @@ import Loader from "../components/Loader";
 export default function TVShows() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
-  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -23,20 +21,26 @@ export default function TVShows() {
 
   useEffect(() => {
     dispatch(getGenres());
-  }, []);
+  }, [dispatch]); // add dispatch as dependency
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "tv" }));
   }, [genresLoaded, dispatch]);
 
-  window.onscroll = () => {
-    setIsScrolled(window.scrollY === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY !== 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  onAuthStateChanged(firebaseAuth, (currentUser) => {
-    // if (currentUser) navigate("/");
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      // Example: redirect if not logged in
+      // if (!currentUser) navigate("/login");
+    });
+
+    return () => unsubscribe(); // cleanup listener
+  }, []); // include navigate if used inside
 
   const showAlert = (message) => {
     setMovieAdded(message);

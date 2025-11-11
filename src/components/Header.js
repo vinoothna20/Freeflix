@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Header(props) {
   const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-between py-0 px-3 sm:px-5 md:px-16">
       <div className="logo">

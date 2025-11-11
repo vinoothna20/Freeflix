@@ -17,7 +17,23 @@ export default function Signup() {
     password: "",
   });
   const [alertMessage, setAlertMessage] = useState(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      if (currentUser) navigate("/");
+    });
+
+    return () => unsubscribe(); // cleanup listener
+  }, [navigate]); // add navigate as dependency
+
+  useEffect(() => {
+    if (alertMessage) {
+      const timer = setTimeout(() => setAlertMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [alertMessage]);
 
   const handleSignup = async () => {
     try {
@@ -38,19 +54,6 @@ export default function Signup() {
       }
     }
   };
-
-  useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-      if (currentUser) navigate("/");
-    });
-  }, []);
-
-  useEffect(() => {
-    if (alertMessage) {
-      const timer = setTimeout(() => setAlertMessage(null), 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [alertMessage]);
 
   return (
     <Container showPassword={showPassword}>
@@ -132,7 +135,7 @@ const Container = styled.div`
     .body {
       .form {
         grid-template-columns: ${({ showPassword }) =>
-          showPassword ? "1fr 1fr" : "2fr 1fr"};
+    showPassword ? "1fr 1fr" : "2fr 1fr"};
         @media (max-width: 426px) {
           grid-template-columns: none;
         }

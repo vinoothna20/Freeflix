@@ -5,6 +5,7 @@ import { fetchDataByGenre } from "../store";
 
 export default function SelectGenres({ genres, type }) {
   const dispatch = useDispatch();
+
   return (
     <Select
       className="flex ml-6 md:ml-20"

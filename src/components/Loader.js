@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 
-export default function Loader() {
-    const messages = [
-        "Curating the next big hits 🍿",
-        "Dialing up the drama 🎭",
-        "Scanning the galaxy for blockbusters 🚀",
-        "Finding stories you’ll love ❤️",
-        "Serving your daily dose of entertainment 📺",
-        "Loading endless entertainment 🎞️",
-        "Uncovering hidden gems 💎",
-    ];
+const messages = [
+    "Curating the next big hits 🍿",
+    "Dialing up the drama 🎭",
+    "Scanning the galaxy for blockbusters 🚀",
+    "Finding stories you’ll love ❤️",
+    "Serving your daily dose of entertainment 📺",
+    "Loading endless entertainment 🎞️",
+    "Uncovering hidden gems 💎",
+];
 
+export default function Loader() {
     const [message, setMessage] = useState("");
 
     useEffect(() => {

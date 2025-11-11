@@ -4,9 +4,9 @@ import Card from "../components/Card";
 import { BsArrowLeft } from "react-icons/bs";
 
 export default function SearchedList() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { searchResults } = location.state || [];
-  const navigate = useNavigate();
 
   return (
     <div>

@@ -12,9 +12,18 @@ export default function Login() {
     password: "",
   });
   const [loginError, setLoginError] = useState(false);
+
   const navigate = useNavigate();
 
-  console.log(loginError);
+  // console.log(loginError);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
+      if (currentUser) navigate("/");
+    });
+    return () => unsubscribe(); // cleanup listener
+  }, [navigate]); // added navigate
+
 
   const handleLogin = async () => {
     try {
@@ -25,12 +34,6 @@ export default function Login() {
       setLoginError(true);
     }
   };
-
-  useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
-      if (currentUser) navigate("/");
-    });
-  }, []);
 
   return (
     <Container className="relative">

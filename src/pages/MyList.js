@@ -8,23 +8,28 @@ import Card from "../components/Card";
 
 export default function MyList() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const navigate = useNavigate();
   const [email, setEmail] = useState(undefined);
   const [storedMovies, setStoredMovies] = useState([]);
   const [movieRemoved, setMovieRemoved] = useState(null);
 
-  window.onscroll = () => {
-    setIsScrolled(window.scrollY === 0 ? false : true);
-    return () => (window.onscroll = null);
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
+    const handleScroll = () => setIsScrolled(window.scrollY !== 0);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) {
         setEmail(currentUser.email);
       } else navigate("/login");
     });
-  }, []);
+
+    return () => unsubscribe(); // cleanup listener
+  }, [navigate]); // add navigate as dependency
 
   useEffect(() => {
     async function fetchStoredMovies() {
@@ -32,15 +37,14 @@ export default function MyList() {
         const docSnap = await getDoc(doc(db, `users/${email}`));
         if (docSnap.exists()) {
           const movies = docSnap.data().savedMovies || [];
-          setStoredMovies(movies);  // Update the stored movies
+          setStoredMovies(movies); // Update the stored movies
         } else {
           console.log("No such document");
         }
       }
     }
     fetchStoredMovies();
-  }, [email, movieRemoved]);  // Re-run when movieRemoved changes (movie is removed)
-
+  }, [email, movieRemoved]); // Re-run when movieRemoved changes (movie is removed)
 
   const showAlert = (message) => {
     setMovieRemoved(message);

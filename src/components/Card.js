@@ -20,13 +20,20 @@ export default React.memo(function Card({
   const [isHovered, setIsHovered] = useState(false);
   const [email, setEmail] = useState(undefined);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    onAuthStateChanged(firebaseAuth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, (currentUser) => {
       if (currentUser) {
         setEmail(currentUser.email);
-      } else navigate("/login");
+      } else {
+        navigate("/login");
+      }
     });
-  }, []);
+
+    return () => unsubscribe(); // cleanup listener on unmount
+  }, [navigate]); // <-- Add navigate as dependency
+
 
   const movieId = doc(db, `users/${email}`);
 
@@ -65,7 +72,7 @@ export default React.memo(function Card({
   };
 
 
-  const navigate = useNavigate();
+
 
   return (
     <Container
