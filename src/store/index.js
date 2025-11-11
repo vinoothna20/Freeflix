@@ -10,6 +10,7 @@ const initialState = {
   movies: [],
   genresLoaded: false,
   genres: [],
+  loading: false,
 };
 
 export const getGenres = createAsyncThunk("freeflix/genres", async () => {
@@ -121,11 +122,29 @@ const FreeflixSlice = createSlice({
       state.genres = action.payload;
       state.genresLoaded = true;
     });
+
+    // Fetch movies loading states
+    builder.addCase(fetchMovies.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
       state.movies = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchMovies.rejected, (state) => {
+      state.loading = false;
+    });
+
+    // Fetch by genre loading states
+    builder.addCase(fetchDataByGenre.pending, (state) => {
+      state.loading = true;
     });
     builder.addCase(fetchDataByGenre.fulfilled, (state, action) => {
       state.movies = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchDataByGenre.rejected, (state) => {
+      state.loading = false;
     });
   },
 });

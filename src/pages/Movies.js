@@ -8,25 +8,22 @@ import Slider from "../components/Slider";
 import NotAvailable from "../components/NotAvailable";
 import { onAuthStateChanged } from "firebase/auth";
 import SelectGenres from "../components/SelectGenres";
+import Loader from "../components/Loader";
 
 export default function Movies() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
 
-  useSelector((state) => {
-    console.log(state);
-
-  })
-  const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
-  const movies = useSelector((state) => state.freeflix.movies);
-  const genres = useSelector((state) => state.freeflix.genres);
-
   const dispatch = useDispatch();
+
+  const { genresLoaded, movies, genres, loading } = useSelector(
+    (state) => state.freeflix
+  );
 
   useEffect(() => {
     dispatch(getGenres());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "movies" }));
@@ -55,7 +52,9 @@ export default function Movies() {
       </div>
       <div className="mt-24 md:mt-32">
         <SelectGenres genres={genres} type="movie" />
-        {movies.length ? (
+        {loading ? (
+          <Loader /> // show loader while Redux says loading=true
+        ) : movies.length ? (
           <div className="pb-14">
             <Slider movies={movies} showAlert={showAlert} />
           </div>

@@ -32,14 +32,15 @@ export default function MyList() {
         const docSnap = await getDoc(doc(db, `users/${email}`));
         if (docSnap.exists()) {
           const movies = docSnap.data().savedMovies || [];
-          setStoredMovies(movies);
+          setStoredMovies(movies);  // Update the stored movies
         } else {
           console.log("No such document");
         }
       }
     }
     fetchStoredMovies();
-  }, [email]);
+  }, [email, movieRemoved]);  // Re-run when movieRemoved changes (movie is removed)
+
 
   const showAlert = (message) => {
     setMovieRemoved(message);
@@ -55,7 +56,7 @@ export default function MyList() {
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl ml-4 sm:ml-6 md:ml-8 lg:ml-12">
           My list
         </h1>
-        {storedMovies.length != 0 ? (
+        {storedMovies.length !== 0 ? (
           <div className="flex flex-wrap md:gap-x-20 lg:gap-x-16 gap-y-6 md:gap-y-8 lg:gap-y-12 ml-10 md:ml-16 lg:ml-10 xl:ml-0 ">
             {storedMovies.map((movie, index) => {
               return (
@@ -65,6 +66,7 @@ export default function MyList() {
                   key={movie.id}
                   isLiked={true}
                   storedMovies={storedMovies}
+                  setStoredMovies={setStoredMovies}
                   showAlert={showAlert}
                 />
               );

@@ -8,16 +8,18 @@ import Slider from "../components/Slider";
 import NotAvailable from "../components/NotAvailable";
 import { onAuthStateChanged } from "firebase/auth";
 import SelectGenres from "../components/SelectGenres";
+import Loader from "../components/Loader";
 
 export default function TVShows() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [movieAdded, setMovieAdded] = useState(null);
   const navigate = useNavigate();
-  const genresLoaded = useSelector((state) => state.freeflix.genresLoaded);
-  const movies = useSelector((state) => state.freeflix.movies);
-  const genres = useSelector((state) => state.freeflix.genres);
 
   const dispatch = useDispatch();
+
+  const { genresLoaded, movies, genres, loading } = useSelector(
+    (state) => state.freeflix
+  );
 
   useEffect(() => {
     dispatch(getGenres());
@@ -25,7 +27,7 @@ export default function TVShows() {
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "tv" }));
-  }, [genresLoaded]);
+  }, [genresLoaded, dispatch]);
 
   window.onscroll = () => {
     setIsScrolled(window.scrollY === 0 ? false : true);
@@ -50,7 +52,9 @@ export default function TVShows() {
       </div>
       <div className="mt-32">
         <SelectGenres genres={genres} type="tv" />
-        {movies.length ? (
+        {loading ? (
+          <Loader /> //  show loader
+        ) : movies.length ? (
           <div className="pb-14">
             <Slider movies={movies} showAlert={showAlert} />
           </div>

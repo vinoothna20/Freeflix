@@ -24,19 +24,22 @@ export default function SearchedList() {
         </div>
 
         {searchResults.length > 0 ? (
-          <div className="flex flex-wrap md:gap-x-20 lg:gap-x-16 gap-y-6 md:gap-y-8 lg:gap-y-12 ml-8 md:ml-16 lg:ml-10 xl:ml-0 ">
+          <div className="flex flex-wrap md:gap-x-20 lg:gap-x-16 gap-y-6 md:gap-y-8 lg:gap-y-12 ml-8 md:ml-16 lg:ml-10 xl:ml-0">
             {searchResults.map((movie, index) => (
               <Card movieData={movie} index={index} key={movie.id} />
             ))}
           </div>
         ) : (
-          <h2
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl  mt-4 flex justify-center text-[#fa1f13]"
-            style={{ fontFamily: "cursive" }}
-          >
-            No movies found :(
-          </h2>
+          <div className="flex justify-center items-center h-[60vh]">
+            <h2
+              className="text-xl sm:text-2xl md:text-3xl lg:text-4xl text-[#fa1f13] text-center"
+              style={{ fontFamily: "cursive" }}
+            >
+              😕🎬 No movies found… Time to discover something new! 🌟🍿
+            </h2>
+          </div>
         )}
+
       </div>
     </div>
   );

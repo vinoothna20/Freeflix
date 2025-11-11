@@ -14,7 +14,7 @@ import { onAuthStateChanged } from "firebase/auth";
 export default React.memo(function Card({
   movieData,
   isLiked = false,
-  storedMovies,
+  storedMovies, setStoredMovies,
   showAlert,
 }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -48,15 +48,22 @@ export default React.memo(function Card({
 
   const removeFromList = async (passedId) => {
     try {
-      const result = storedMovies.filter((item) => item.id != passedId);
+      const result = storedMovies.filter((item) => item.id !== passedId);
+
+      // Update the database first
       await updateDoc(movieId, {
         savedMovies: result,
       });
+
+      // Update the state after removing the movie
+      setStoredMovies(result);
+
       showAlert(`${movieData.name} has been removed from your list!`);
     } catch (error) {
       console.log(error);
     }
   };
+
 
   const navigate = useNavigate();
 
